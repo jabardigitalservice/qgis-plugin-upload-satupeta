@@ -13,7 +13,7 @@ email=jds.dataengineer@gmail.com
 about=Merupakan plugin qgis untuk upload file SHP
 
 tracker=http://bugs
-repository=http://repo
+repository=https://github.com/jabardigitalservice/qgis-plugin-upload-satupeta
 # End of mandatory metadata
 
 # Recommended items:

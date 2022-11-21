@@ -14,79 +14,6 @@
    <string>Plugin QGIS JDS</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_3">
-   <item row="0" column="0">
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>250</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="4" column="4">
-    <spacer name="verticalSpacer_4">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>3</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="2" column="4" rowspan="2">
-    <widget class="QPushButton" name="pbLogOut">
-     <property name="text">
-      <string>Keluar</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="3" colspan="2">
-    <spacer name="horizontalSpacer_2">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>250</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="0" column="2" rowspan="3">
-    <widget class="QLabel" name="label_2">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>50</height>
-      </size>
-     </property>
-     <property name="font">
-      <font>
-       <family>Roboto</family>
-       <pointsize>20</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>Plugin QGIS JDS</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-     <property name="margin">
-      <number>10</number>
-     </property>
-    </widget>
-   </item>
    <item row="0" column="1" rowspan="4">
     <widget class="QLabel" name="label_3">
      <property name="minimumSize">
@@ -118,15 +45,15 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="4">
-    <spacer name="verticalSpacer_3">
+   <item row="0" column="3" colspan="2">
+    <spacer name="horizontalSpacer_2">
      <property name="orientation">
-      <enum>Qt::Vertical</enum>
+      <enum>Qt::Horizontal</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
-       <width>20</width>
-       <height>28</height>
+       <width>250</width>
+       <height>20</height>
       </size>
      </property>
     </spacer>
@@ -140,6 +67,82 @@
       <size>
        <width>179</width>
        <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="2" column="4" rowspan="2">
+    <widget class="QPushButton" name="pbLogOut">
+     <property name="styleSheet">
+      <string notr="true">background-color:rgb(255, 0, 127)</string>
+     </property>
+     <property name="text">
+      <string>Keluar</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="2" rowspan="3">
+    <widget class="QLabel" name="label_2">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>Roboto</family>
+       <pointsize>20</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Plugin QGIS JDS</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="margin">
+      <number>10</number>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>250</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="4">
+    <spacer name="verticalSpacer_3">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>28</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="4" column="4">
+    <spacer name="verticalSpacer_4">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>3</height>
       </size>
      </property>
     </spacer>
@@ -177,12 +180,12 @@
           </font>
          </property>
          <property name="text">
-          <string>Pilih Berkas (.zip)</string>
+          <string>Pilih Layer</string>
          </property>
         </widget>
        </item>
        <item row="1" column="1" colspan="3">
-        <widget class="QgsFileWidget" name="choosefileSHP"/>
+        <widget class="QgsMapLayerComboBox" name="select_layer"/>
        </item>
        <item row="2" column="1">
         <spacer name="horizontalSpacer_4">
@@ -199,6 +202,9 @@
        </item>
        <item row="2" column="2">
         <widget class="QPushButton" name="pbUploadSHP">
+         <property name="styleSheet">
+          <string notr="true">background-color:rgb(170, 255, 127)</string>
+         </property>
          <property name="text">
           <string>Unggah</string>
          </property>
@@ -308,6 +314,9 @@
        </item>
        <item row="2" column="2">
         <widget class="QPushButton" name="pbMulaiUlang">
+         <property name="styleSheet">
+          <string notr="true">background-color:rgb(170, 255, 127)</string>
+         </property>
          <property name="text">
           <string>Mulai Ulang</string>
          </property>
@@ -338,9 +347,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QgsFileWidget</class>
-   <extends>QWidget</extends>
-   <header>qgsfilewidget.h</header>
+   <class>QgsMapLayerComboBox</class>
+   <extends>QComboBox</extends>
+   <header>qgsmaplayercombobox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

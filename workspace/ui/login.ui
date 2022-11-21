@@ -159,6 +159,9 @@
      <layout class="QGridLayout" name="gridLayout">
       <item row="4" column="0" colspan="3">
        <widget class="QPushButton" name="pbLogin">
+        <property name="styleSheet">
+         <string notr="true">background-color:rgb(85, 170, 255)</string>
+        </property>
         <property name="text">
          <string>Masuk</string>
         </property>
