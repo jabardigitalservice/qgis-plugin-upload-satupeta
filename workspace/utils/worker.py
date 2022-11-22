@@ -11,6 +11,7 @@ from ..utils.config import readSetting
 class WorkerThread(QThread):
 
     worker_complete = pyqtSignal(dict)
+    progress = pyqtSignal(float)
 
     def __init__(self, source,tipeFile):
         super(QThread, self).__init__()
@@ -22,6 +23,10 @@ class WorkerThread(QThread):
 
     def run(self):
 
+
+        #init progress 
+        self.progress.emit(0)
+
         shp = self.source.replace(self.tipeFile, ".shp")
         shp = shp.replace("\\", "/")
         prj = self.source.replace(self.tipeFile, ".prj")
@@ -30,6 +35,8 @@ class WorkerThread(QThread):
         dbf = dbf.replace("\\", "/")
         shx = self.source.replace(self.tipeFile, ".shx")
         shx = shx.replace("\\", "/")
+
+        self.progress.emit(1)
 
         #for check if necessary
         #sourceFile = json.loads('{"shp":"%s","prj":"%s","dbf":"%s","shx":"%s"}'%(shp,prj,dbf,shx))
@@ -42,6 +49,8 @@ class WorkerThread(QThread):
         zipShp.write(f"{prj}",os.path.basename(prj).replace(" ","_"))
         # close the Zip File
         zipShp.close()
+
+        self.progress.emit(2)
 
         #path zip
         files_path = shp.split('.')[0]+'.zip'
@@ -57,14 +66,16 @@ class WorkerThread(QThread):
             'opdcode': self.opdcode
         }
 
-        #another endpoint upload_v2
-        url = 'http://geoplugin.coredatajds.id/gis/plugin/upload/'
+        #another endpoint upload_v2 or upload/
+        url = 'http://geoplugin.coredatajds.id/gis/plugin/upload_v2'
 
         if files_path:
 
             #name file
             file_name = shp.split('.')[0].split('/')[-1]
             file_extension = ".zip"
+
+            self.progress.emit(3)
 
             #sent file
             response = requests.post(url, headers=headers,files=[
@@ -73,15 +84,20 @@ class WorkerThread(QThread):
                 'application/zip'))
             ],verify=False)
 
+            self.progress.emit(4)
+
             if response:
                 if response.status_code == 200:
                     self.worker_complete.emit({"status":response.status_code,"message":"OK"})
                 else:
+                    self.progress.emit(0)
                     err_msg = response.json().get('detail').get('message')
                     self.worker_complete.emit({"status":response.status_code,"message":err_msg})
             else:
+                self.progress.emit(0)
                 self.worker_complete.emit({"status":417,"message":"Failed Upload"})
         else:
+            self.progress.emit(0)
             self.worker_complete.emit({"status":416,"message":"Empty File"})
 
         #delete file tmp

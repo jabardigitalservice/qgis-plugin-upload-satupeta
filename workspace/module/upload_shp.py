@@ -109,14 +109,17 @@ class UploadSHPDialog(QtWidgets.QDialog, FORM_CLASS):
             self.worker = WorkerThread(source[0],".shp")
             self.worker.start()
             self.worker.worker_complete.connect(self.onFinishedThreadUpload)
+            self.worker.progress.connect(self.onProgressBar)
         elif (tipe=="dbf"):
             self.worker = WorkerThread(source[0],".dbf")
             self.worker.start()
             self.worker.worker_complete.connect(self.onFinishedThreadUpload)
+            self.worker.progress.connect(self.onProgressBar)
         elif (tipe=="shx"):
             self.worker = WorkerThread(source[0],".shx")
             self.worker.start()
             self.worker.worker_complete.connect(self.onFinishedThreadUpload)
+            self.worker.progress.connect(self.onProgressBar)
     
     def onFinishedThreadUpload(self, emp):
         
@@ -143,6 +146,9 @@ class UploadSHPDialog(QtWidgets.QDialog, FORM_CLASS):
             err_msg = emp["message"]
             self.notifGagal.show()
             self.notifGagal.lbl_notif_gagal.setText(err_msg)
+    
+    def onProgressBar(self, val):
+        self.LoadingScreen.progressBarUpload.setValue((val/4)*100)
 
     # table view
     def list_file_queue(self):
