@@ -63,7 +63,7 @@ class PluginQgisJDS:
 
         # Declare instance attributes
         self.actions = []
-        self.menu = self.tr(u'&Plugin QGIS JDS')
+        self.menu = self.tr(u'&Jabar Plugin Geospatial')
 
         # Check if plugin was started the first time in current QGIS session
         # Must be set in initGui() to survive plugin reloads
@@ -176,7 +176,7 @@ class PluginQgisJDS:
         icon_path = ':/plugins/plugin_qgis_jds/icon.png'
         self.add_action(
             icon_path,
-            text=self.tr(u'Plugin QGIS JDS'),
+            text=self.tr(u'JAPATI'),
             callback=self.run,
             parent=self.iface.mainWindow())
 
@@ -188,7 +188,7 @@ class PluginQgisJDS:
         """Removes the plugin menu item and icon from QGIS GUI."""
         for action in self.actions:
             self.iface.removePluginMenu(
-                self.tr(u'&Plugin QGIS JDS'),
+                self.tr(u'&JAPATI'),
                 action)
             self.iface.removeToolBarIcon(action)
 

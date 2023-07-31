@@ -34,6 +34,7 @@ from qgis.PyQt import QtWidgets
 
 from PyQt5.QtCore import pyqtSignal
 from qgis.core import QgsProject
+from qgis.core import QgsVectorLayer
 
 from ..utils.config import readSetting
 from ..utils.table_model import TableModel
@@ -75,26 +76,46 @@ class UploadSHPDialog(QtWidgets.QDialog, FORM_CLASS):
         #list button
         self.pbUploadSHP.clicked.connect(self.onpbUploadSHPClicked)
         self.pbLogOut.clicked.connect(self.onpbLogOutClicked)
+        self.pbMulaiUlang.clicked.connect(self.onpbMulaiUlangClicked)
         self.select_layer.currentTextChanged.connect(self.onSelectLayerClicked)
+        self.reloadpushButton.clicked.connect(self.tabChanged)
+        self.clearpushButtonID.clicked.connect(self.clearStyle)
+        self.ButtonClearNameLayer.clicked.connect(self.clearNameLayer)
+
         
         #list emmit
         self.notifOK.notifikasiSukses.connect(self.ok_sukses_button)
         self.notifGagal.notifikasiGagal.connect(self.ok_gagal_button)
 
         #listener tab widget
-        self.tabWidget_main_menu.currentChanged.connect(self.tabChanged)
+        self.tabWidget_main_menu.currentChanged.connect(self.reload)
 
-    
+
     def tabChanged(self):
         if (self.tabWidget_main_menu.currentIndex() == 1):
             self.list_file_queue()
-        elif(self.tabWidget_main_menu.currentIndex() == 2):
-            self.restart_file()
+            #print("asafdf")
+        # elif(self.tabWidget_main_menu.currentIndex() == 2):
+        #     self.restart_file()
+        #     print('asdf')
+    
+    def reload(self):
+        self.list_file_queue()
+    
+
+    def clearStyle(self):
+        self.lineEdit_id_antrian.setText('')
+
+
+    def clearNameLayer(self):
+        self.nama_layer.setText('')
+        self.progresBarUploadMain.setValue(0)
+
 
     def onpbUploadSHPClicked(self):
 
         #show loading
-        self.LoadingScreen.show()
+        #self.LoadingScreen.show()
 
         layerName = self.select_layer.currentText()
 
@@ -103,24 +124,51 @@ class UploadSHPDialog(QtWidgets.QDialog, FORM_CLASS):
   
         source = source.split("|")
         tipe = source[0].split(".")[-1]
+        
+        nama_layer = self.nama_layer.text()
+
+        #SLD File
+        source_sld = source[0]
+        sldPath = source_sld.replace(".shp", ".sld")
+        sldPath = sldPath.replace("\\", "/")
+        layer.saveSldStyle(sldPath)
+
+        #SRID Save to .txt
+        source_srid = source[0]
+        sridPath = source_srid.replace(".shp", ".txt")
+        # layer = QgsVectorLayer(sridPath, 'Shapefile', 'ogr')
+        crs = layer.crs()
+        with open(sridPath, 'w') as file:
+            file.write(str(crs))
+        
 
         #throw to worker
         if (tipe=="shp"):
-            self.worker = WorkerThread(source[0],".shp")
+            self.worker = WorkerThread(source[0],".shp",nama_layer)
             self.worker.start()
             self.worker.worker_complete.connect(self.onFinishedThreadUpload)
-            self.worker.progress.connect(self.onProgressBar)
+            #self.worker.progress.connect(self.onProgressBar)
+            self.worker.progress.connect(self.onProgressBarMain)
         elif (tipe=="dbf"):
-            self.worker = WorkerThread(source[0],".dbf")
+            self.worker = WorkerThread(source[0],".dbf",nama_layer)
             self.worker.start()
             self.worker.worker_complete.connect(self.onFinishedThreadUpload)
-            self.worker.progress.connect(self.onProgressBar)
+            #self.worker.progress.connect(self.onProgressBar)
+            self.worker.progress.connect(self.onProgressBarMain)
         elif (tipe=="shx"):
-            self.worker = WorkerThread(source[0],".shx")
+            self.worker = WorkerThread(source[0],".shx",nama_layer)
             self.worker.start()
             self.worker.worker_complete.connect(self.onFinishedThreadUpload)
-            self.worker.progress.connect(self.onProgressBar)
-    
+            #self.worker.progress.connect(self.onProgressBar)
+            self.worker.progress.connect(self.onProgressBarMain)
+        elif (tipe=="prj"):
+            self.worker = WorkerThread(source[0],".prj",nama_layer)
+            self.worker.start()
+            self.worker.worker_complete.connect(self.onFinishedThreadUpload)
+            #self.worker.progress.connect(self.onProgressBar)
+            self.worker.progress.connect(self.onProgressBarMain)
+
+
     def onFinishedThreadUpload(self, emp):
         
         #hide loading screen
@@ -147,9 +195,15 @@ class UploadSHPDialog(QtWidgets.QDialog, FORM_CLASS):
             self.notifGagal.show()
             self.notifGagal.lbl_notif_gagal.setText(err_msg)
     
+
     def onProgressBar(self, val):
         self.LoadingScreen.progressBarUpload.setValue((val/4)*100)
+    
 
+    def onProgressBarMain(self, val):
+        self.progresBarUploadMain.setValue((val/4)*100)
+
+    
     # table view
     def list_file_queue(self):
         #read store setting
@@ -170,7 +224,7 @@ class UploadSHPDialog(QtWidgets.QDialog, FORM_CLASS):
         if response.status_code == 200:
             #get data
             data = response.json()
-            df = pd.DataFrame (data, columns = ['id','object_name','status','created_at','last_modified'])
+            df = pd.DataFrame (data, columns = ['id','object_name','status','created_at','last_modified','link_wms','link_download','information'])
             
             #cleansing
             df['status'] = df['status'].str.replace("_"," ")
@@ -186,7 +240,7 @@ class UploadSHPDialog(QtWidgets.QDialog, FORM_CLASS):
 
             df = df.replace(np.nan, '', regex=True)
 
-            df.columns = ['id', 'nama_file', 'status', 'dibuat_pada','terakhir_diubah']
+            df.columns = ['id', 'nama_file', 'status', 'dibuat_pada','terakhir_diubah','link_wms','link_download','information']
             
             df.columns = df.columns.str.replace('_',' ')
             df.columns = df.columns.str.upper()
@@ -196,13 +250,18 @@ class UploadSHPDialog(QtWidgets.QDialog, FORM_CLASS):
             self.tblview_list_file.setModel(self.model)
 
             #modified style table
-            self.tblview_list_file.resizeColumnsToContents()
+            self.tblview_list_file.setWordWrap(True)
+            self.tblview_list_file.resizeRowsToContents()
+            # self.tblview_list_file.resizeColumnsToContents()
     
-    def restart_file(self):
-        self.pbMulaiUlang.clicked.connect(self.onpbMulaiUlangClicked)
+    # def restart_file(self):
+    #     self.pbMulaiUlang.clicked.connect(self.onpbMulaiUlangClicked)
+
 
     def onpbMulaiUlangClicked(self):
         id_queue = self.lineEdit_id_antrian.text()
+        print(id_queue)
+        #name_file = self.lineEdit_id_antrian.text()
          
         if id_queue:
             #read store setting
@@ -210,6 +269,8 @@ class UploadSHPDialog(QtWidgets.QDialog, FORM_CLASS):
             self.password = readSetting("password")
             self.opdcode = readSetting("opdcode")
             
+            #bucket_name = "temp2"
+
             headers = {
                 'user': self.username,
                 'password': self.password,
@@ -217,10 +278,16 @@ class UploadSHPDialog(QtWidgets.QDialog, FORM_CLASS):
             }
 
             url = 'https://api.coredatajds.id/gis/plugin/admin/restart_queue_file'
+            #url = 'https://api.coredatajds.id/gis/plugin/admin/insert_queue_file'
 
             payload = json.dumps({
                 "queue_id": id_queue,
             })
+            
+            #payload = json.dumps({
+            #    "bucket_name": bucket_name,
+            #    "file_name":name_file
+            #})
 
             response = requests.post(url, headers=headers, data=payload)
 
@@ -240,12 +307,15 @@ class UploadSHPDialog(QtWidgets.QDialog, FORM_CLASS):
     def onSelectLayerClicked(self):
         self.select_layer.currentText()
     
+
     def onpbLogOutClicked(self):
         self.UserLogout.emit()    
+
 
     def ok_sukses_button(self):
         #self.choosefileSHP.closeEvent()
         self.notifOK.hide()
+
 
     def ok_gagal_button(self):
         #self.choosefileSHP.closeEvent()

@@ -60,17 +60,32 @@ class LoginDialog(QtWidgets.QDialog, FORM_CLASS):
 
 
     def get_opd_list(self):
-
         url_list_opd = 'https://api.coredatajds.id/gis/list_opd_code'
         opd_list = requests.get(url_list_opd)
-        opd_list = opd_list.json()
-        opd_list = opd_list.get("result")
-
         display = []
-        for data in opd_list:
-            display.append(data['opd_code'])
-        
+        if opd_list.status_code == 200:
+            opd_list = opd_list.json()
+            opd_list = opd_list.get("result")
+            #display = []
+            for data in opd_list:
+                display.append(data['opd_code'])
+            #print(display)
+            #return display
+        else:
+            display = ["Reconnecting..."]
+            #print(display)
+            #return display
         return display
+        # url_list_opd = 'https://api.coredatajds.id/gis/list_opd_code'
+        # opd_list = requests.get(url_list_opd)
+        # opd_list = opd_list.json()
+        # opd_list = opd_list.get("result")
+
+        # display = []
+        # for data in opd_list:
+        #     display.append(data['opd_code'])
+        
+        # return display
 
     def onpbLoginClicked(self):
 

@@ -13,13 +13,14 @@ class WorkerThread(QThread):
     worker_complete = pyqtSignal(dict)
     progress = pyqtSignal(float)
 
-    def __init__(self, source,tipeFile):
+    def __init__(self, source, tipeFile, nama_layer):
         super(QThread, self).__init__()
         #print('workerinit')
         self.stopworker = False # initialize the stop variable
 
         self.source = source
         self.tipeFile = tipeFile
+        self.nama_layer = nama_layer
 
     def run(self):
 
@@ -35,25 +36,32 @@ class WorkerThread(QThread):
         dbf = dbf.replace("\\", "/")
         shx = self.source.replace(self.tipeFile, ".shx")
         shx = shx.replace("\\", "/")
-
+        sld = self.source.replace(self.tipeFile, ".sld")
+        sld = sld.replace("\\", "/")
+        srid = self.source.replace(self.tipeFile, ".txt")
+        srid = srid.replace("\\", "/")
+        layer = self.nama_layer
+        
         self.progress.emit(1)
 
         #for check if necessary
         #sourceFile = json.loads('{"shp":"%s","prj":"%s","dbf":"%s","shx":"%s"}'%(shp,prj,dbf,shx))
-
-        zipShp = ZipFile(f"{shp.split('.')[0]}"+'.zip', 'w')
+        zipShp = ZipFile(f"{layer.split('.')[0]}"+'.zip', 'w')
+        #zipShp = ZipFile(f"{shp.split('.')[0]}"+'.zip', 'w')
         # Add multiple files to the zip
-        zipShp.write(f"{shp}",os.path.basename(shp).replace(" ","_"))
-        zipShp.write(f"{dbf}",os.path.basename(dbf).replace(" ","_"))
-        zipShp.write(f"{shx}",os.path.basename(shx).replace(" ","_"))
-        zipShp.write(f"{prj}",os.path.basename(prj).replace(" ","_"))
+        zipShp.write(f"{shp}",arcname="".join([layer,".shp"]).replace(" ", "_"))
+        zipShp.write(f"{dbf}",arcname="".join([layer,".dbf"]).replace(" ", "_"))
+        zipShp.write(f"{shx}",arcname="".join([layer,".shx"]).replace(" ", "_"))
+        zipShp.write(f"{prj}",arcname="".join([layer,".prj"]).replace(" ", "_"))
+        zipShp.write(f"{sld}",arcname="".join([layer,".sld"]).replace(" ", "_"))
+        zipShp.write(f"{srid}",arcname="".join([layer,".txt"]).replace(" ", "_"))
         # close the Zip File
         zipShp.close()
 
         self.progress.emit(2)
 
         #path zip
-        files_path = shp.split('.')[0]+'.zip'
+        files_path = layer.split('.')[0]+'.zip'
 
         #read store setting
         self.username = readSetting("username")
@@ -72,7 +80,7 @@ class WorkerThread(QThread):
         if files_path:
 
             #name file
-            file_name = shp.split('.')[0].split('/')[-1]
+            file_name = layer.split('.')[0].split('/')[-1]
             file_extension = ".zip"
 
             self.progress.emit(3)
@@ -83,6 +91,8 @@ class WorkerThread(QThread):
                 open(files_path,'rb'),
                 'application/zip'))
             ],verify=False)
+            
+            
 
             self.progress.emit(4)
 
