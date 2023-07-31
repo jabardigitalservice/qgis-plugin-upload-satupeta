@@ -281,7 +281,7 @@ class UploadSHPDialog(QtWidgets.QDialog, FORM_CLASS):
             #url = 'https://api.coredatajds.id/gis/plugin/admin/insert_queue_file'
 
             payload = json.dumps({
-                "queue_id": id_queue,
+                "id_queue": id_queue,
             })
             
             #payload = json.dumps({
