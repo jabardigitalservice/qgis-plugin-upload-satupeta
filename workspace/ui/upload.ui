@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1200</width>
-    <height>900</height>
+    <width>1243</width>
+    <height>936</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,8 +20,47 @@
    <property name="rightMargin">
     <number>11</number>
    </property>
-   <item row="8" column="0" colspan="5">
+   <item row="11" column="0" colspan="5">
+    <widget class="QLabel" name="label_2">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>55</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>Roboto</family>
+       <pointsize>20</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>JAPATI</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="margin">
+      <number>10</number>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="0" rowspan="3" colspan="5">
     <widget class="QTabWidget" name="tabWidget_main_menu">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
      <property name="currentIndex">
       <number>0</number>
      </property>
@@ -298,35 +337,14 @@
      </widget>
     </widget>
    </item>
-   <item row="6" column="2">
-    <widget class="QLabel" name="label_2">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>50</height>
-      </size>
-     </property>
-     <property name="font">
-      <font>
-       <family>Roboto</family>
-       <pointsize>20</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>JAPATI</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-     <property name="margin">
-      <number>10</number>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="2">
+   <item row="12" column="0" colspan="5" alignment="Qt::AlignHCenter">
     <widget class="QLabel" name="label_5">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="font">
       <font>
        <family>Arial</family>
@@ -340,94 +358,65 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="0" colspan="4">
-    <widget class="QFrame" name="frame">
-     <property name="frameShape">
-      <enum>QFrame::NoFrame</enum>
+   <item row="10" column="3">
+    <widget class="QLabel" name="label_7">
+     <property name="maximumSize">
+      <size>
+       <width>130</width>
+       <height>70</height>
+      </size>
      </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
+     <property name="text">
+      <string/>
      </property>
-     <widget class="QLabel" name="label_3">
-      <property name="geometry">
-       <rect>
-        <x>280</x>
-        <y>-20</y>
-        <width>241</width>
-        <height>141</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="pixmap">
-       <pixmap>../../img/diskom jabar.png</pixmap>
-      </property>
-      <property name="scaledContents">
-       <bool>true</bool>
-      </property>
-      <property name="margin">
-       <number>-35</number>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_6">
-      <property name="geometry">
-       <rect>
-        <x>510</x>
-        <y>20</y>
-        <width>171</width>
-        <height>61</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="pixmap">
-       <pixmap>../../img/jds.png</pixmap>
-      </property>
-      <property name="scaledContents">
-       <bool>true</bool>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_7">
-      <property name="geometry">
-       <rect>
-        <x>700</x>
-        <y>20</y>
-        <width>121</width>
-        <height>61</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="pixmap">
-       <pixmap>../../img/satu peta png.png</pixmap>
-      </property>
-      <property name="scaledContents">
-       <bool>true</bool>
-      </property>
-     </widget>
+     <property name="pixmap">
+      <pixmap>../../img/satu peta png.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
     </widget>
    </item>
-   <item row="5" column="4">
-    <spacer name="verticalSpacer_3">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
+   <item row="10" column="2">
+    <widget class="QLabel" name="label_6">
+     <property name="maximumSize">
+      <size>
+       <width>160</width>
+       <height>70</height>
+      </size>
      </property>
-     <property name="sizeType">
-      <enum>QSizePolicy::Fixed</enum>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap>../../img/jds.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="4">
+    <spacer name="horizontalSpacer_8">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
-       <width>20</width>
-       <height>100</height>
+       <width>40</width>
+       <height>20</height>
       </size>
      </property>
     </spacer>
    </item>
-   <item row="0" column="4">
+   <item row="0" column="4" alignment="Qt::AlignRight">
     <widget class="QPushButton" name="pbLogOut">
+     <property name="maximumSize">
+      <size>
+       <width>100</width>
+       <height>16777215</height>
+      </size>
+     </property>
      <property name="styleSheet">
       <string notr="true">background-color:rgb(255, 0, 127)</string>
      </property>
@@ -435,6 +424,38 @@
       <string>Keluar</string>
      </property>
     </widget>
+   </item>
+   <item row="10" column="1">
+    <widget class="QLabel" name="label_3">
+     <property name="maximumSize">
+      <size>
+       <width>200</width>
+       <height>80</height>
+      </size>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap>../../img/Logotype Diskominfo Jabar.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="0">
+    <spacer name="horizontalSpacer_5">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>
