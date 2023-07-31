@@ -5,12 +5,12 @@
 [general]
 name=Plugin QGIS JDS
 qgisMinimumVersion=3.0
-description=Merupakan plugin qgis untuk keperluan opd di provide dari JDS
-version=0.1
-author=Misdan Wijaya
+description=The QGIS plugin is used by agencies in the West Java provincial government to upload data and create map services on the geoserver in order to publish data internally and publicly.
+version=1.0
+author=Misdan Wijaya, Firman
 email=jds.dataengineer@gmail.com
 
-about=Merupakan plugin qgis untuk upload file SHP
+about=QGIS plugin for data upload and publish map service.
 
 tracker=http://bugs
 repository=https://github.com/jabardigitalservice/qgis-plugin-upload-satupeta
