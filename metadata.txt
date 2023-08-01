@@ -3,7 +3,7 @@
 # This file should be included when you package your plugin.# Mandatory items:
 
 [general]
-name=Plugin QGIS JDS
+name=JAPATI
 qgisMinimumVersion=3.0
 description=The QGIS plugin is used by agencies in the West Java provincial government to upload data and create map services on the geoserver in order to publish data internally and publicly.
 version=1.0
